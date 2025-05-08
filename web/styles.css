@@ -66,3 +66,28 @@ pre div:hover {
 	opacity: 0;
 	transition: opacity 0.3s;
 }
+
+/*clear ls*/
+#clearButton {
+	margin-top: 8px;
+	padding: 12px 24px;
+	font-size: 16px;
+	background-color: #ff4444;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+#clearButton:hover {
+	background-color: #cc0000;
+}
+
+#clearButtonMessage {
+	margin-top: 20px;
+	color: #333;
+	font-size: 14px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}

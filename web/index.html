@@ -26,6 +26,11 @@
 
   <div id="copy-message" class="copy-message">Copied!</div>
   
+  <div>
+        <button id="clearButton">Clear LocalStorage</button>
+        <div id="clearButtonMessage"></div>
+    </div>
+
   <script type="text/javascript" src="./env.js"></script>
   <script>   
     document.addEventListener('DOMContentLoaded', () => {
@@ -126,5 +131,21 @@
       }
     });
   </script>
+  <script>
+    document.getElementById('clearButton').addEventListener('click', function() {
+        // Clear all localStorage data
+        localStorage.clear();
+        
+        // Show confirmation message
+        const message = document.getElementById('message');
+        message.textContent = 'LocalStorage has been cleared!';
+        message.style.opacity = 1;
+        
+        // Hide message after 3 seconds
+        setTimeout(() => {
+            message.style.opacity = 0;
+        }, 3000);
+    });
+</script>
 </body>
 </html>
