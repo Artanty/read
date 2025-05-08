@@ -21,12 +21,14 @@
     <button type="submit">Submit</button>
   </form>
   
+  <h3 id="responseTitle"></h3>
   <div id="response"></div>
   
   <script type="text/javascript" src="./env.js"></script>
   <script>   
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('apiForm');
+      const responseTitle = document.getElementById('responseTitle');
       const responseDiv = document.getElementById('response');
       
       // Check localStorage for saved data
@@ -61,6 +63,7 @@
       // Make API request
       async function makeRequest(data) {
         try {
+          responseTitle.innerHTML = ''
           responseDiv.innerHTML = 'Loading...';
           
           const response = await fetch(`${process.env.BACKEND_URL}/get-one-note-readonly`, {
@@ -73,8 +76,10 @@
           
           if (result.error) {
             form.classList.remove('hidden')
+            responseTitle.innerHTML = ''
             responseDiv.innerHTML = `<div class="error">BAD: ${result.message}</div>`;
           } else {
+            responseTitle.innerHTML = `${result.title}`
             responseDiv.innerHTML = `
               <pre>${result.data}</pre>
             `;

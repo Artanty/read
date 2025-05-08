@@ -44,7 +44,7 @@ const validateInput = (req, res, next) => {
 
 app.post('/get-one-note-readonly', validateInput, async (req, res) => {
   const { provider, projectId, token } = req.body;
-  console.log(token)
+  // console.log(token)
   try {
     const apiUrl = `${provider}/api/note/${projectId}`;
     
@@ -61,8 +61,9 @@ app.post('/get-one-note-readonly', validateInput, async (req, res) => {
       throw new Error('wrong response')
     }
 
-    console.log(noteContent)
+    // console.log(noteContent)
     res.json({
+      title: response?.data?.title,
       data: noteContent,
       status: 'OK',
       statusCode: response.status
