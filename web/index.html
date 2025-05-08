@@ -23,6 +23,8 @@
   
   <h3 id="responseTitle"></h3>
   <div id="response"></div>
+
+  <div id="copy-message" class="copy-message">Copied!</div>
   
   <script type="text/javascript" src="./env.js"></script>
   <script>   
@@ -81,8 +83,41 @@
           } else {
             responseTitle.innerHTML = `${result.title}`
             responseDiv.innerHTML = `
-              <pre>${result.data}</pre>
+              <pre id="pre-block">${result.data}</pre>
             `;
+            // lines start
+            const pre = document.getElementById('pre-block');
+            const copyMessage = document.getElementById('copy-message');
+            
+            // Get all lines exactly as they appear (including empty lines)
+            const originalContent = pre.textContent;
+            const lines = originalContent.split('\n');
+            
+            // Remove the first empty line if it exists (from the opening <pre> tag)
+            if (lines[0].trim() === '') {
+              lines.shift();
+            }
+            
+            // Wrap each line in a clickable div (including empty lines)
+            pre.innerHTML = lines.map(line => 
+              `<div>${line}</div>`
+            ).join('\n');
+            
+            // Add click handlers to all lines
+            pre.querySelectorAll('div').forEach((lineDiv, index) => {
+              lineDiv.addEventListener('click', () => {
+                // Copy the exact line content (including whitespace)
+                const lineText = lines[index];
+                navigator.clipboard.writeText(lineText).then(() => {
+                  // Show feedback
+                  copyMessage.style.opacity = '1';
+                  setTimeout(() => {
+                    copyMessage.style.opacity = '0';
+                  }, 1000);
+                });
+              });
+            });
+            // lines end
           }
         } catch (error) {
           form.classList.remove('hidden')

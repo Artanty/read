@@ -1,8 +1,13 @@
 body {
 	font-family: Arial, sans-serif;
-	max-width: 600px;
-	margin: 0 auto;
-	padding: 20px;
+	padding-left: 8px;
+	background: #4B79A1;
+	/* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #283E51, #4B79A1);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #283E51, #4B79A1);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	color: #cfdef3;
 }
 
 form {
@@ -18,10 +23,28 @@ button {
 }
 
 #response {
-	margin-top: 20px;
+	margin-top: 8px;
 	padding: 15px;
-	border: 1px solid #ddd;
-	background: #f9f9f9;
+	background: #000000;
+	border: 1px solid #000000;
+	transition: all 1s ease;
+}
+
+#response:hover {
+	border: 1px solid #cfdef3
+}
+
+pre {
+	cursor: pointer;
+	user-select: none;
+	white-space: pre;
+	/* Preserve original whitespace */
+}
+
+pre div:hover {
+	background: #cfdef3;
+	color: green !important;
+	font-weight: 600;
 }
 
 .error {
@@ -30,4 +53,16 @@ button {
 
 .hidden {
 	display: none;
+}
+
+.copy-message {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background: #4CAF50;
+	color: white;
+	padding: 8px 16px;
+	border-radius: 4px;
+	opacity: 0;
+	transition: opacity 0.3s;
 }
