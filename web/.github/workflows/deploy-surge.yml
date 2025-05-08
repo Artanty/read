@@ -1,0 +1,27 @@
+name: Deploy Website
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploying to surge
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Read .env file
+        id: env
+        run: |
+          SURGE_DOMAIN=$(grep SURGE_DOMAIN .env | cut -d '=' -f2)
+          SURGE_TOKEN=$(grep SURGE_TOKEN .env | cut -d '=' -f2)
+          echo "SURGE_DOMAIN=${SURGE_DOMAIN}" >> $GITHUB_OUTPUT
+          echo "SURGE_TOKEN=${SURGE_TOKEN}" >> $GITHUB_OUTPUT
+          
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - run: npm install -g surge
+      
+      - run: surge ./ ${{ steps.env.outputs.SURGE_DOMAIN }} --token ${{ steps.env.outputs.SURGE_TOKEN }}

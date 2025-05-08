@@ -1,0 +1,33 @@
+body {
+	font-family: Arial, sans-serif;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+input,
+button {
+	padding: 8px;
+}
+
+#response {
+	margin-top: 20px;
+	padding: 15px;
+	border: 1px solid #ddd;
+	background: #f9f9f9;
+}
+
+.error {
+	color: red;
+}
+
+.hidden {
+	display: none;
+}

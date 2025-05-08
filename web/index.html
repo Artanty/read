@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Read one note App</title>
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <form id="apiForm">
+    <div>
+      <label for="provider">Provider:</label>
+      <input type="text" id="provider" required>
+    </div>
+    
+    <div>
+      <label for="projectId">Project ID:</label>
+      <input type="text" id="projectId" required>
+    </div>
+    
+    <div>
+      <label for="token">Token:</label>
+      <input type="text" id="token" required>
+    </div>
+    
+    <button type="submit">Submit</button>
+  </form>
+  
+  <div id="response"></div>
+  
+  <script type="text/javascript" src="./env.js"></script>
+  <script>   
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('apiForm');
+      const responseDiv = document.getElementById('response');
+      
+      // Check localStorage for saved data
+      const savedData = localStorage.getItem('apiFormData');
+      if (savedData) {
+        const { provider, projectId, token } = JSON.parse(savedData);
+        document.getElementById('provider').value = provider;
+        document.getElementById('projectId').value = projectId;
+        document.getElementById('token').value = token;
+        makeRequest({ provider, projectId, token });
+        form.classList.add('hidden')
+      } else {
+        form.classList.remove('hidden')
+      }
+      
+      // Form submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const formData = {
+          provider: document.getElementById('provider').value,
+          projectId: document.getElementById('projectId').value,
+          token: document.getElementById('token').value
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('apiFormData', JSON.stringify(formData));
+        
+        makeRequest(formData);
+      });
+      
+      // Make API request
+      async function makeRequest(data) {
+        try {
+          responseDiv.innerHTML = 'Loading...';
+          
+          const response = await fetch(`${process.env.READ_BACK_URL}/get-one-note-readonly`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          
+          if (result.error) {
+            form.classList.remove('hidden')
+            responseDiv.innerHTML = `<div class="error">BAD: ${result.message}</div>`;
+          } else {
+            responseDiv.innerHTML = `
+              <pre>${result.data}</pre>
+            `;
+          }
+        } catch (error) {
+          form.classList.remove('hidden')
+          responseDiv.innerHTML = `<div class="error">BAD: ${error.message}</div>`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
