@@ -65,7 +65,7 @@
         try {
           responseDiv.innerHTML = 'Loading...';
           
-          const response = await fetch(`${process.env.READ_BACK_URL}/get-one-note-readonly`, {
+          const response = await fetch(`${process.env.BACKEND_URL}/get-one-note-readonly`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
